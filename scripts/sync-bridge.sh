@@ -88,7 +88,9 @@ merge_history() {
         local sep=""
         for node in pc server phone; do
             [ "$node" = "$SELF" ] && continue
-            remote_args+="$sep\"${NODE_HOME[$node]}\""
+            local home="${NODE_HOME[$node]}"
+            home="${home//\\/\\\\}"  # \\ → \\\\ for JS string literal
+            remote_args+="$sep\"$home\""
             sep=","
         done
         remote_args+="]"
